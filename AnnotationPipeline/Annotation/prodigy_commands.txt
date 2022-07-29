@@ -1,0 +1,40 @@
+# View all created datasets
+    python3 -m prodigy stats -l
+  
+# Delete a dataset
+  python3 -m prodigy drop my_set
+
+# Annotation
+
+1: Binary classification manual
+
+    python3 -m prodigy RECIPE DATASET_NAME INPUT_DATA --label LABEL 
+
+    python3 -m prodigy textcat.manual demo_dataset ./Data/unlabelled_data.jsonl --label TOXIC
+
+2: Binary classification with Active learning
+
+    python3 -m prodigy RECIPE DATASET_NAME SPACY_PIPELINE INPUT_DATA --label LABEL --patterns PATTERN
+
+    - textcat.teach = spacy classifier model
+    - blank:sv = pipeline for swedish
+
+    python3 -m prodigy textcat.teach demo_dataset blank:sv ./Data/unlabelled_data.jsonl --label TOXIC --patterns ./Patterns/pattern_toxic-TOXIC.jsonl
+    python3 -m prodigy textcat.teach demo_dataset blank:sv ./Data/unlabelled_data.jsonl --label TOXIC
+
+# 3: Saving annotated data as jsonl file
+
+    python3 -m prodigy db-out DATASET_NAME  > OUTPUT_FILE
+
+    python3 -m prodigy db-out demo_dataset  > Data/annotated_data.jsonl
+
+# 4: Named entity recognition (NER)
+
+    python3 -m prodigy ner.manual ner_dataset blank:en ./Data/unlabelled_data.jsonl --label SEXIST,RACIST,THREAT
+    python3 -m prodigy db-out ner_dataset  > Data/ner_annotated_data.jsonl
+
+# Test training a model on our annotated data
+
+    python3 -m prodigy train MODEL_NAME --textcat-multilabel DATASET_NAME --eval-split DATA_SPLIT
+
+    python3 -m prodigy train test-model --textcat-multilabel demo_dataset --base-model blank:sv --eval-split 0.2
