@@ -75,47 +75,6 @@ def clean_data(input_file, output_file):
                     f.write(json.dumps(result,ensure_ascii=False) + "\n")
 
 
-#clean_data("./sampled_20_data/random_20span_500each.jsonl","./sampled_20_data/clean_random_20span_500each.jsonl")
-
-def createDataset(input_txt,keyword_name,keyword_final_name,random_name,random_final_name, thread):
-
-
-    #extract_keyword_json(input_txt,keyword_name, thread)           
-    extract_random_json(input_txt,random_name, thread)
-    #clean_data(keyword_name,keyword_final_name)
-    clean_data(random_name,random_final_name)
-
-
-def reformat_final_data(input_file, output_file):
-    with open(input_file, 'r') as json_file:
-        json_list = list(json_file)
-        with open(output_file, 'w', encoding='utf-8') as f:
-            
-            it = 4000
-            for json_str in json_list:
-                result = json.loads(json_str)
-
-                thread = result["thread"]
-                id_nr = result["id"]
-                text_sample = result["text"]
-                #keyword = result['keyword']
-                starting_index = result["starting_index"]
-                span_length = result["span_length"]
-
-
-                jsonl_line = {"id": it,"thread":thread ,"thread_id":id_nr,"text":text_sample,"starting_index":starting_index,"span_length":span_length}
-
-                f.write(json.dumps(jsonl_line,ensure_ascii=False) + "\n")
-
-                it += 1
-
-
-#reformat_final_data("./sampled_20_data/random_20span_500each.jsonl","./sampled_20_data/reformat_random_20span_500each.jsonl")
-
-#clean_data("./keyword_data/flashback_keyword_data.jsonl", "./keyword_data/flashback_keyword_data.jsonl")
-
-#reformat_final_data("./keyword_data/flashback_keyword_data.jsonl","./keyword_data/reformatted_clean_flashback_keyword_data.jsonl")
-
 import random
 
 def shuffle_jsonl(input_file,output_file):

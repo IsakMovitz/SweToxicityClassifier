@@ -1,19 +1,12 @@
 from functions import *
 import json
 
-# Model 3 looks as good according to the test set but seems to perform better when testing strings?
-# Maybe finding some edge case examples could be good for the study
-# "Vad fan vill du vi ska diskutera Nog för att jag hatar feminister och vill att de avlider snabbt men"
-
-
-def find_wrong_classified(input_filename, output_filename):
+def find_wrongly_classified(input_filename, output_filename):
     cleaned_data = []
-    finetuned_model = AutoModelForSequenceClassification.from_pretrained("./Local/Test26_KB_extended_extra/KB_extended_extra_Model")
-    tokenizer = AutoTokenizer.from_pretrained("./Local/Test26_KB_extended_extra/KB_extended_extra_Model")
+    finetuned_model = AutoModelForSequenceClassification.from_pretrained("<PATH_TO_TRAINED_MODEL>")
+    tokenizer = AutoTokenizer.from_pretrained("<PATH_TO_TRAINED_MODEL>")
 
-    
-
-    #Open annotation file from Prodigy:
+    # Open annotated file:
     with open(input_filename, 'r',encoding='utf-8') as json_file:
         json_list = list(json_file)
 
@@ -26,7 +19,7 @@ def find_wrong_classified(input_filename, output_filename):
         if toxic != result:
             cleaned_data.append(line_dict)
 
-    #Save cleaned back to jsonl format:
+    # Save cleaned data back to jsonl format:
     with open(output_filename, 'w', encoding='utf-8') as f:
             for item in cleaned_data:
                 if item != cleaned_data[-1]:
@@ -34,28 +27,21 @@ def find_wrong_classified(input_filename, output_filename):
                 else:
                     f.write(json.dumps(item,ensure_ascii=False))
 
-def test_model():
+def classify_string(input_string):
 
-    finetuned_model = AutoModelForSequenceClassification.from_pretrained("./Local/Test26_KB_extended_extra/KB_extended_extra_Model")
-    tokenizer = AutoTokenizer.from_pretrained("./Local/Test26_KB_extended_extra/KB_extended_extra_Model")
-    result = evaluate_string("muslimer är inte dumma det är säkert många som håller med dem men det finns alltid de som inte kan acceptera andras trosuppfattning ", finetuned_model, tokenizer)
+    finetuned_model = AutoModelForSequenceClassification.from_pretrained("<PATH_TO_TRAINED_MODEL>")
+    tokenizer = AutoTokenizer.from_pretrained("<PATH_TO_TRAINED_MODEL>")
+    result = evaluate_string(input_string, finetuned_model, tokenizer)
     print(result)
 
 
-    
-
-    # valid = load_data("./Local/VALID_150.jsonl")
-    # test = load_data("./Local/TEST_150.jsonl")
-    # tokenized_valid = tokenize_data(valid, tokenizer)
-    # tokenized_test = tokenize_data(test, tokenizer)
-    #
-    #
-    # evaluate_model(finetuned_model, tokenizer, tokenized_valid, "Local/Local_test_1/")
-
 
 if __name__ == '__main__':
-    test_model()
-    #find_wrong_classified("./Local/TEST_150.jsonl","./Local/WRONG_CLASSIFIED_KB_EXTRA.jsonl")
+    
+    input_string = ""
+
+    classify_string(input_string)
+    find_wrongly_classified("<INPUT_FILE>","<OUTPUT_FILE>")
     
 
 

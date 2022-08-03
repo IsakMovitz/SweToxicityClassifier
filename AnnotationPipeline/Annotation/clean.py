@@ -29,7 +29,7 @@ def cleaner(input_filename, output_filename):
         else:
             pass
 
-    #Save cleaned back to jsonl format:
+    # Save cleaned back to jsonl format:
     with open(output_filename, 'w', encoding='utf-8') as f:
             for item in cleaned_data:
                 if item != cleaned_data[-1]:

@@ -1,15 +1,14 @@
 
-Batch sizes:
+Batch size:
 16
 
 Learning rate: 
 3e-4, 1e-4, 5e-5, 3e-5
 
-Swedish pretrained models to test:
+Pretrained Huggingface models:
 
 1.) KB/bert-base-swedish-cased
 2.) AI-Nordics/bert-large-swedish-cased
-3.) For fun : xlm-roberta-large 
 
 lr_scheduler_type:
 LINEAR="linear"

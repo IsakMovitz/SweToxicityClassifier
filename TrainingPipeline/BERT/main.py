@@ -3,7 +3,7 @@ from functions import *
 def main():
 
     # Parameters
-    create_seed(20)         # 42, 30 , 20
+    create_seed(42)        
     pretrained_model = "AI-Nordics/bert-large-swedish-cased"             # "KB/bert-base-swedish-cased" , "AI-Nordics/bert-large-swedish-cased"
     run_nr = 20
     model_name = "AI-Nord_extended"
